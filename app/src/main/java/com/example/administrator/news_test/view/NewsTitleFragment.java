@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,10 +24,14 @@ public class NewsTitleFragment extends Fragment {
     private boolean isTwoPane;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.news_title_frag, container, false);
-        return view;
+    public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
+        View view = inflater.inflate(R.layout.news_title_frag,container,false);
+        RecyclerView newsTitleRecylerView = (RecyclerView)view.findViewById(R.id.news_title_recycler_view);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        newsTitleRecylerView.setLayoutManager(layoutManager);
+        NewsAdapter adapter = new NewsAdapter(getNews());
+        newsTitleRecylerView.setAdapter(adapter);
+        return  view;
     }
 
     @Override
@@ -54,13 +59,12 @@ public class NewsTitleFragment extends Fragment {
         public NewsAdapter(List<News> newsList) {
             mNewsList = newsList;
         }
-        @RequiresApi(api = Build.VERSION_CODES.M)
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent,int viewType){
             View view =LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.news_item,parent,false);
+                    .inflate(R.layout.news_content_frag,parent,false);
             final ViewHolder holder = new ViewHolder(view);
-            view.setOnClickListener(new View.OnContextClickListener(){
+            view.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v){
                     News news = mNewsList.get(holder.getAdapterPosition());
@@ -83,25 +87,16 @@ public class NewsTitleFragment extends Fragment {
         }
         @Override
         public int getItemCount(){
+            Log.d("size", String.valueOf(mNewsList.size()));
             return mNewsList.size();
         }
     }
-    @Override
-    public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
-        View view = inflater.inflate(R.layout.news_title_frag,container,false);
-        RecyclerView newsTitleRecylerView = (RecyclerView)view.findViewById(R.id.news_title_recycler_view);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        newsTitleRecylerView.setLayoutManager(layoutManager);
-        NewsAdapter adapter = new NewsAdapter(getNews());
-        newsTitleRecylerView.setAdapter(adapter);
-        return  view;
-    }
-    private List<News>getNews(){
+    private List<News> getNews(){
         List<News>newsList = new ArrayList<>();
         for (int i = 1;i <= 50;i++){
             News news =new News();
             news.setTitle("test");
-            news.setContent(getRandomLengthContent("Content"));
+            news.setContent("Content"+i);
             newsList.add(news);
         }
         return newsList;

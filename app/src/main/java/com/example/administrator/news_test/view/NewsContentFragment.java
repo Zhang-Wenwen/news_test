@@ -17,8 +17,8 @@ public class NewsContentFragment extends Fragment {
         return view;
     }
     public void refresh(String newsTitle,String newsContent){
-        View visibilityLayout=view.findViewById(R.id.visibility_layout);
-        visibilityLayout.setVisibility(View.VISIBLE);
+//        View visibilityLayout=view.findViewById(R.id.visibility_layout);
+//        visibilityLayout.setVisibility(View.VISIBLE);
         TextView newsTitleText=(TextView)view.findViewById(R.id.news_title);
         TextView newsContentText=(TextView)view.findViewById(R.id.news_content);
         newsTitleText.setText(newsTitle);
